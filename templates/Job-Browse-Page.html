@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iconnect - Browse Jobs</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>
+tailwind.config = {
+darkMode: 'class',
+theme: {
+extend: {
+colors: {
+primary:'#3b82f6',
+secondary:'#10b981',
+dark: {
+900: '#111827',
+800: '#1F2937',
+700: '#374151',
+600: '#4B5563',
+500: '#6B7280',
+400: '#9CA3AF'
+}
+},
+borderRadius: {
+'none':'0px',
+'sm':'4px',
+DEFAULT:'8px',
+'md':'12px',
+'lg':'16px',
+'xl':'20px',
+'2xl':'24px',
+'3xl':'32px',
+'full':'9999px',
+'button':'8px'
+}
+}
+}
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<link href='static/main.css' rel='stylesheet'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+<!-- Header -->
+<header class="bg-white dark:bg-dark-800 shadow-sm sticky top-0 z-50 transition-colors duration-200">
+  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center">
+      <a href="#" class="text-2xl font-['Pacifico'] text-primary mr-10">Iconnect</a>
+      <nav class="hidden md:flex space-x-8">
+        <a href="index" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary font-medium">Home</a>
+        <a href="#" data-readdy="true" class="text-primary dark:text-primary font-medium border-b-2 border-primary">Browse Jobs</a>
+        <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary font-medium">About Us</a>
+        <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary font-medium">How It Works</a>
+      </nav>
+    </div>
+    <div class="flex items-center space-x-4">
+      <button class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium whitespace-nowrap">Log In</button>
+      <button class="bg-primary text-white px-4 py-2 font-medium !rounded-button hover:bg-primary/90 whitespace-nowrap">Sign Up</button>
+      <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 cursor-pointer" id="mobileMenuToggle">
+        <i class="ri-menu-line ri-lg dark:text-gray-300"></i>
+      </div>
+      <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 cursor-pointer" id="darkModeToggle">
+        <i class="ri-sun-line ri-lg dark:text-gray-300" id="themeIcon"></i>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Search Bar -->
+<section class="bg-white dark:bg-dark-800 py-8 shadow-sm transition-colors duration-200">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="relative flex-grow max-w-3xl w-full">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+          <i class="ri-search-line text-gray-400"></i>
+        </div>
+        <input type="text" placeholder="Search for jobs, skills, or companies" class="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-700 dark:bg-dark-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm">
+      </div>
+      <div class="flex items-center space-x-3 w-full md:w-auto">
+        <button class="flex items-center space-x-2 px-4 py-3 border border-gray-200 dark:border-gray-700 dark:text-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 whitespace-nowrap" id="filtersToggle">
+          <i class="ri-filter-3-line"></i>
+          <span>Filters</span>
+        </button>
+        <button class="flex items-center space-x-2 px-4 py-3 border border-gray-200 dark:border-gray-700 dark:text-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 whitespace-nowrap" id="locationToggle">
+          <i class="ri-map-pin-line"></i>
+          <span>Location</span>
+        </button>
+        <button class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Advanced Filters Section -->
+<section class="bg-gray-50 dark:bg-dark-900 border-b border-gray-200 dark:border-gray-800 transition-colors duration-200" id="advancedFilters" style="display: none;">
+  <div class="container mx-auto px-4 py-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Job Category -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Job Category</label>
+        <div class="relative">
+          <button class="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-dark-800 border border-gray-200 dark:border-gray-700 rounded-lg text-left text-sm text-gray-700 dark:text-gray-300" id="categoryDropdown">
+            <span>All Categories</span>
+            <i class="ri-arrow-down-s-line"></i>
+          </button>
+          <div class="dropdown-content" id="categoryOptions">
+            <div class="py-1">
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">All Categories</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">IT & Development</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Design & Creative</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Marketing</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Customer Service</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Administrative</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Data Science</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Mobile Development</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Location Type -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location Type</label>
+        <div class="flex space-x-2">
+          <div class="flex-1">
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Remote
+            </label>
+          </div>
+          <div class="flex-1">
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              On-site
+            </label>
+          </div>
+          <div class="flex-1">
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Hybrid
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Salary Range -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Salary Range</label>
+        <div class="px-2">
+          <input type="range" min="30000" max="200000" value="100000" step="5000" class="custom-range" id="salaryRange">
+          <div class="flex justify-between mt-2">
+            <span class="text-xs text-gray-500 dark:text-gray-400">$30k</span>
+            <span class="text-xs text-gray-700 dark:text-gray-300" id="salaryValue">$100k</span>
+            <span class="text-xs text-gray-500 dark:text-gray-400">$200k+</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Job Type -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Job Type</label>
+        <div class="grid grid-cols-2 gap-2">
+          <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+            <input type="checkbox" checked>
+            <span class="checkmark"></span>
+            Full-time
+          </label>
+          <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+            <input type="checkbox">
+            <span class="checkmark"></span>
+            Part-time
+          </label>
+          <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+            <input type="checkbox">
+            <span class="checkmark"></span>
+            Contract
+          </label>
+          <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+            <input type="checkbox">
+            <span class="checkmark"></span>
+            Freelance
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex justify-end mt-6">
+      <button class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-lg mr-3 hover:bg-gray-300 dark:hover:bg-gray-600 !rounded-button whitespace-nowrap">Reset Filters</button>
+      <button class="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary/90 !rounded-button whitespace-nowrap">Apply Filters</button>
+    </div>
+  </div>
+</section>
+
+<!-- Active Filters -->
+<section class="bg-white dark:bg-dark-800 py-4 border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap items-center justify-between">
+      <div class="flex flex-wrap items-center gap-2 mb-2 md:mb-0">
+        <span class="text-sm text-gray-500 dark:text-gray-400">Active filters:</span>
+        <div class="flex flex-wrap gap-2">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+            Full-time
+            <button class="ml-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+              <i class="ri-close-line"></i>
+            </button>
+          </span>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+            Remote
+            <button class="ml-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+              <i class="ri-close-line"></i>
+            </button>
+          </span>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+            IT & Development
+            <button class="ml-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+              <i class="ri-close-line"></i>
+            </button>
+          </span>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+            $80k - $120k
+            <button class="ml-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+              <i class="ri-close-line"></i>
+            </button>
+          </span>
+        </div>
+        <button class="text-primary text-sm hover:underline">Clear all</button>
+      </div>
+      <div class="text-sm text-gray-700 dark:text-gray-300 font-medium">
+        1,248 jobs found
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content Area -->
+<div class="container mx-auto px-4 py-8">
+  <div class="flex flex-col lg:flex-row gap-8">
+    <!-- Sidebar Filters (Desktop) -->
+    <div class="hidden lg:block w-64 flex-shrink-0">
+      <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm p-6 sticky top-28">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Refine Results</h3>
+        
+        <!-- Experience Level -->
+        <div class="mb-6">
+          <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Experience Level</h4>
+          <div class="space-y-2">
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Entry Level
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Mid Level
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Senior Level
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Director
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Executive
+            </label>
+          </div>
+        </div>
+        
+        <!-- Industry -->
+        <div class="mb-6">
+          <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Industry</h4>
+          <div class="space-y-2">
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Technology
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Healthcare
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Finance
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Education
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              E-commerce
+            </label>
+          </div>
+          <button class="text-primary text-sm mt-2 hover:underline">Show more</button>
+        </div>
+        
+        <!-- Company Size -->
+        <div class="mb-6">
+          <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Company Size</h4>
+          <div class="space-y-2">
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              1-10 employees
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              11-50 employees
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              51-200 employees
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              201-500 employees
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              501+ employees
+            </label>
+          </div>
+        </div>
+        
+        <!-- Posted Date -->
+        <div class="mb-6">
+          <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Posted Date</h4>
+          <div class="space-y-2">
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Last 24 hours
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Last 3 days
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              Last 7 days
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Last 14 days
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Last 30 days
+            </label>
+          </div>
+        </div>
+        
+        <!-- Required Skills -->
+        <div>
+          <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Required Skills</h4>
+          <div class="space-y-2">
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              JavaScript
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox" checked>
+              <span class="checkmark"></span>
+              React
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Node.js
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              Python
+            </label>
+            <label class="custom-checkbox flex items-center text-sm text-gray-700 dark:text-gray-300">
+              <input type="checkbox">
+              <span class="checkmark"></span>
+              UI/UX Design
+            </label>
+          </div>
+          <button class="text-primary text-sm mt-2 hover:underline">Show more</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Job Listings -->
+    <div class="flex-grow">
+      <!-- Sorting Options -->
+      <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm p-4 mb-6 flex flex-col sm:flex-row justify-between items-center">
+        <div class="flex items-center mb-3 sm:mb-0">
+          <span class="text-sm text-gray-500 dark:text-gray-400 mr-3">Sort by:</span>
+          <div class="relative">
+            <button class="flex items-center text-sm text-gray-700 dark:text-gray-300 font-medium" id="sortDropdown">
+              <span>Most Relevant</span>
+              <i class="ri-arrow-down-s-line ml-1"></i>
+            </button>
+            <div class="dropdown-content" id="sortOptions">
+              <div class="py-1">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Most Relevant</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Most Recent</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Highest Salary</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Lowest Salary</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="flex bg-gray-100 dark:bg-gray-700 rounded-full p-1 mr-4">
+            <button class="px-3 py-1 rounded-full tab-active">
+              <i class="ri-layout-grid-line"></i>
+            </button>
+            <button class="px-3 py-1 rounded-full text-gray-500 dark:text-gray-400">
+              <i class="ri-list-check"></i>
+            </button>
+          </div>
+          <div class="relative">
+            <button class="flex items-center text-sm text-gray-700 dark:text-gray-300" id="perPageDropdown">
+              <span>10 per page</span>
+              <i class="ri-arrow-down-s-line ml-1"></i>
+            </button>
+            <div class="dropdown-content" id="perPageOptions">
+              <div class="py-1">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">10 per page</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">20 per page</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">30 per page</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">50 per page</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Job Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Job Card 1 -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-lg mr-4">
+                <i class="ri-google-fill ri-lg text-blue-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">Senior Frontend Developer</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Google Inc.</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="ri-bookmark-line"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              React
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              TypeScript
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              UI/UX
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div class="flex items-center">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span>San Francisco, CA (Remote)</span>
+            </div>
+            <div class="flex items-center">
+              <i class="ri-time-line mr-1"></i>
+              <span>Full-time</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-white">$120,000 - $150,000</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">/year</span>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">Apply Now</button>
+          </div>
+        </div>
+        
+        <!-- Job Card 2 -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 flex items-center justify-center bg-indigo-100 rounded-lg mr-4">
+                <i class="ri-microsoft-fill ri-lg text-indigo-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">UX/UI Designer</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Microsoft</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="ri-bookmark-line"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Figma
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Adobe XD
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Prototyping
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div class="flex items-center">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span>Seattle, WA (Hybrid)</span>
+            </div>
+            <div class="flex items-center">
+              <i class="ri-time-line mr-1"></i>
+              <span>Full-time</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-white">$95,000 - $120,000</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">/year</span>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">Apply Now</button>
+          </div>
+        </div>
+        
+        <!-- Job Card 3 -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-lg mr-4">
+                <i class="ri-spotify-fill ri-lg text-green-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">Digital Marketing Specialist</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Spotify</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="ri-bookmark-line"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              SEO
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Social Media
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Analytics
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div class="flex items-center">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span>New York, NY (Remote)</span>
+            </div>
+            <div class="flex items-center">
+              <i class="ri-time-line mr-1"></i>
+              <span>Full-time</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-white">$80,000 - $100,000</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">/year</span>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">Apply Now</button>
+          </div>
+        </div>
+        
+        <!-- Job Card 4 -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 flex items-center justify-center bg-purple-100 rounded-lg mr-4">
+                <i class="ri-amazon-fill ri-lg text-purple-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">Backend Developer</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Amazon</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="ri-bookmark-line"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Java
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              AWS
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Microservices
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div class="flex items-center">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span>Seattle, WA (On-site)</span>
+            </div>
+            <div class="flex items-center">
+              <i class="ri-time-line mr-1"></i>
+              <span>Full-time</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-white">$130,000 - $160,000</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">/year</span>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">Apply Now</button>
+          </div>
+        </div>
+        
+        <!-- Job Card 5 -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 flex items-center justify-center bg-red-100 rounded-lg mr-4">
+                <i class="ri-netflix-fill ri-lg text-red-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">Data Scientist</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Netflix</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="ri-bookmark-line"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Python
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Machine Learning
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              SQL
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div class="flex items-center">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span>Los Angeles, CA (Hybrid)</span>
+            </div>
+            <div class="flex items-center">
+              <i class="ri-time-line mr-1"></i>
+              <span>Full-time</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-white">$140,000 - $180,000</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">/year</span>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">Apply Now</button>
+          </div>
+        </div>
+        
+        <!-- Job Card 6 -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-lg mr-4">
+                <i class="ri-slack-fill ri-lg text-yellow-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">Product Manager</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Slack</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="ri-bookmark-line"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Agile
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Product Strategy
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              User Research
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div class="flex items-center">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span>San Francisco, CA (Remote)</span>
+            </div>
+            <div class="flex items-center">
+              <i class="ri-time-line mr-1"></i>
+              <span>Full-time</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-white">$125,000 - $155,000</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">/year</span>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">Apply Now</button>
+          </div>
+        </div>
+        
+        <!-- Job Card 7 -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-lg mr-4">
+                <i class="ri-facebook-fill ri-lg text-blue-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">iOS Developer</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Meta</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="ri-bookmark-line"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Swift
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              iOS
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              SwiftUI
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div class="flex items-center">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span>Menlo Park, CA (Hybrid)</span>
+            </div>
+            <div class="flex items-center">
+              <i class="ri-time-line mr-1"></i>
+              <span>Full-time</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-white">$135,000 - $165,000</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">/year</span>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">Apply Now</button>
+          </div>
+        </div>
+        
+        <!-- Job Card 8 -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-lg mr-4">
+                <i class="ri-shopify-fill ri-lg text-green-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">E-commerce Specialist</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Shopify</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="ri-bookmark-line"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              E-commerce
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Digital Marketing
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              CRO
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div class="flex items-center">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span>Toronto, Canada (Remote)</span>
+            </div>
+            <div class="flex items-center">
+              <i class="ri-time-line mr-1"></i>
+              <span>Full-time</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-white">$85,000 - $110,000</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">/year</span>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">Apply Now</button>
+          </div>
+        </div>
+        
+        <!-- Job Card 9 -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 flex items-center justify-center bg-indigo-100 rounded-lg mr-4">
+                <i class="ri-twitter-x-fill ri-lg text-indigo-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">Content Strategist</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Twitter</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="ri-bookmark-line"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Content Marketing
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Social Media
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Copywriting
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div class="flex items-center">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span>San Francisco, CA (Remote)</span>
+            </div>
+            <div class="flex items-center">
+              <i class="ri-time-line mr-1"></i>
+              <span>Full-time</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-white">$90,000 - $115,000</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">/year</span>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">Apply Now</button>
+          </div>
+        </div>
+        
+        <!-- Job Card 10 -->
+        <div class="bg-white dark:bg-dark-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 flex items-center justify-center bg-purple-100 rounded-lg mr-4">
+                <i class="ri-adobe-fill ri-lg text-purple-600"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-gray-900 dark:text-white">Motion Designer</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Adobe</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+              <i class="ri-bookmark-line"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              After Effects
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Cinema 4D
+            </span>
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+              Animation
+            </span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <div class="flex items-center">
+              <i class="ri-map-pin-line mr-1"></i>
+              <span>San Jose, CA (Hybrid)</span>
+            </div>
+            <div class="flex items-center">
+              <i class="ri-time-line mr-1"></i>
+              <span>Full-time</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-white">$95,000 - $125,000</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">/year</span>
+            </div>
+            <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">Apply Now</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="flex justify-center mt-10">
+        <nav class="flex items-center">
+          <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 mr-2">
+            <i class="ri-arrow-left-s-line"></i>
+          </button>
+          <button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white mr-2">1</button>
+          <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 mr-2">2</button>
+          <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 mr-2">3</button>
+          <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 mr-2">4</button>
+          <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 mr-2">5</button>
+          <span class="mx-2 text-gray-500 dark:text-gray-400">...</span>
+          <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 mr-2">12</button>
+          <button class="w-10 h-10 flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800">
+            <i class="ri-arrow-right-s-line"></i>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white pt-16 pb-8 mt-16">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+      <div class="lg:col-span-2">
+        <a href="#" class="text-2xl font-['Pacifico'] text-white mb-4 inline-block">Iconnect</a>
+        <p class="text-gray-400 mb-6 max-w-md">Connecting skilled professionals with businesses looking for quality talent. Our platform makes it easy to find work or hire the perfect candidate.</p>
+        <div class="flex space-x-4">
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+            <i class="ri-facebook-fill"></i>
+          </a>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+            <i class="ri-twitter-x-fill"></i>
+          </a>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+            <i class="ri-linkedin-fill"></i>
+          </a>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+            <i class="ri-instagram-fill"></i>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-lg font-semibold mb-4">For Workers</h4>
+        <ul class="space-y-3">
+          <li><a href="#" class="text-gray-400 hover:text-white">Find Jobs</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Create Profile</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Career Resources</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Success Stories</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-lg font-semibold mb-4">For Clients</h4>
+        <ul class="space-y-3">
+          <li><a href="#" class="text-gray-400 hover:text-white">Post a Job</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Browse Talent</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Enterprise Solutions</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Success Stories</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Resources</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Company</h4>
+        <ul class="space-y-3">
+          <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Press</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <p class="text-gray-400">&copy; 2025 Iconnect. All rights reserved.</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
+          <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+          <a href="#" class="text-gray-400 hover:text-white">Cookie Policy</a>
+          <a href="#" class="text-gray-400 hover:text-white">Accessibility</a>
+        </div>
+        <div class="mt-4 md:mt-0 flex items-center space-x-3">
+          <i class="ri-visa-fill ri-lg"></i>
+          <i class="ri-mastercard-fill ri-lg"></i>
+          <i class="ri-paypal-fill ri-lg"></i>
+          <i class="ri-apple-fill ri-lg"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Chat Widget -->
+<div class="fixed bottom-6 right-6 z-50">
+  <button class="w-14 h-14 flex items-center justify-center rounded-full bg-primary text-white shadow-lg hover:bg-primary/90">
+    <i class="ri-message-3-line ri-lg"></i>
+  </button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Toggle mobile menu
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const mobileNav = document.querySelector('nav');
+  if (mobileMenuToggle && mobileNav) {
+    mobileMenuToggle.addEventListener('click', function() {
+      mobileNav.classList.toggle('hidden');
+    });
+  }
+
+  // Dark mode functionality
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const htmlElement = document.documentElement;
+  
+  // Function to set theme
+  function setTheme(isDark) {
+    if (isDark) {
+      htmlElement.classList.add('dark');
+      themeIcon.classList.remove('ri-sun-line');
+      themeIcon.classList.add('ri-moon-line');
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      htmlElement.classList.remove('dark');
+      themeIcon.classList.remove('ri-moon-line');
+      themeIcon.classList.add('ri-sun-line');
+      localStorage.setItem('darkMode', 'false');
+    }
+  }
+  
+  // Check for saved theme preference or system preference
+  const savedTheme = localStorage.getItem('darkMode');
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(savedTheme === 'true' || (!savedTheme && systemPrefersDark));
+  
+  // Toggle dark mode
+  darkModeToggle.addEventListener('click', function() {
+    setTheme(!htmlElement.classList.contains('dark'));
+  });
+  
+  // Listen for system theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (!localStorage.getItem('darkMode')) {
+      setTheme(e.matches);
+    }
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Custom checkbox functionality
+  const checkboxes = document.querySelectorAll('.custom-checkbox input');
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      // Additional functionality can be added here
+    });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Toggle switch functionality
+  const toggles = document.querySelectorAll('.toggle-switch input');
+  toggles.forEach(toggle => {
+    toggle.addEventListener('change', function() {
+      // Additional functionality can be added here
+    });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Advanced filters toggle
+  const filtersToggle = document.getElementById('filtersToggle');
+  const advancedFilters = document.getElementById('advancedFilters');
+  
+  if (filtersToggle && advancedFilters) {
+    filtersToggle.addEventListener('click', function() {
+      if (advancedFilters.style.display === 'none') {
+        advancedFilters.style.display = 'block';
+      } else {
+        advancedFilters.style.display = 'none';
+      }
+    });
+  }
+  
+  // Salary range slider
+  const salaryRange = document.getElementById('salaryRange');
+  const salaryValue = document.getElementById('salaryValue');
+  
+  if (salaryRange && salaryValue) {
+    salaryRange.addEventListener('input', function() {
+      const value = parseInt(this.value);
+      salaryValue.textContent = value >= 200000 ? '$200k+' : `$${Math.floor(value/1000)}k`;
+    });
+  }
+  
+  // Dropdown functionality
+  const dropdownToggles = [
+    {toggle: 'categoryDropdown', content: 'categoryOptions'},
+    {toggle: 'sortDropdown', content: 'sortOptions'},
+    {toggle: 'perPageDropdown', content: 'perPageOptions'}
+  ];
+  
+  dropdownToggles.forEach(item => {
+    const toggle = document.getElementById(item.toggle);
+    const content = document.getElementById(item.content);
+    
+    if (toggle && content) {
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const parent = this.parentElement;
+        
+        // Close all other dropdowns
+        document.querySelectorAll('.dropdown').forEach(el => {
+          if (el !== parent) {
+            el.classList.remove('active');
+          }
+        });
+        
+        // Toggle current dropdown
+        parent.classList.toggle('active');
+      });
+      
+      // Handle dropdown item selection
+      const dropdownItems = content.querySelectorAll('a');
+      dropdownItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.preventDefault();
+          const text = this.textContent.trim();
+          const toggleText = toggle.querySelector('span');
+          if (toggleText) {
+            toggleText.textContent = text;
+          }
+          toggle.parentElement.classList.remove('active');
+        });
+      });
+    }
+  });
+  
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', function(e) {
+    document.querySelectorAll('.dropdown').forEach(dropdown => {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>
