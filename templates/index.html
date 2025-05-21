@@ -13,40 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
     <link href='static/main.css' rel='stylesheet'>
-    <script>
-        tailwind.config = {
-darkMode: 'class',
-theme: {
-extend: {
-colors: {
-primary:'#3b82f6',
-secondary:'#10b981',
-dark: {
-900: '#111827',
-800: '#1F2937',
-700: '#374151',
-600: '#4B5563',
-500: '#6B7280',
-400: '#9CA3AF'
-}
-},
-borderRadius: {
-'none':'0px',
-'sm':'4px',
-DEFAULT:'8px',
-'md':'12px',
-'lg':'16px',
-'xl':'20px',
-'2xl':'24px',
-'3xl':'32px',
-'full':'9999px',
-'button':'8px'
-}
-}
-}
-}
-
-    </script>
     <style>
         :where([class^="ri-"])::before { content: "\f3c2"; }
         body {
@@ -259,17 +225,21 @@ DEFAULT:'8px',
                     <p class="text-lg text-gray-700 mb-8">Join thousands of professionals on the platform that connects skilled workers with clients looking for quality talent.</p>
                     
                     <div class="bg-white p-6 rounded-xl shadow-lg max-w-md">
-                        <div class="flex mb-6">
-                            <button class="flex-1 py-2 font-medium text-primary border-b-2 border-primary">Find Work</button>
-                            <button class="flex-1 py-2 font-medium text-gray-500 border-b-2 border-gray-200">Hire Talent</button>
-                        </div>
+        <div class="flex mb-6 relative">
+            <!-- Sliding indicator -->
+            <div id="slider" class="absolute bottom-0 left-0 h-0.5 bg-blue-500 transition-all duration-300 w-1/2"></div>
+
+            <!-- Buttons -->
+            <button onclick="setTab(0)" id="tab0" class="flex-1 py-2 font-medium text-blue-600">Find Work</button>
+            <button onclick="setTab(1)" id="tab1" class="flex-1 py-2 font-medium text-gray-500">Hire Talent</button>
+        </div>
                         
                         <div class="mb-4">
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <i class="ri-search-line text-gray-400"></i>
                                 </div>
-                                <input type="text" placeholder="Search for jobs" class="w-full pl-10 pr-4 py-3 border-none bg-gray-100 rounded focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm">
+                                <input type="text" placeholder="Search for jobs" id="searchInput" class="w-full pl-10 pr-4 py-3 border-none bg-gray-100 rounded focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm">
                             </div>
                         </div>
                         
@@ -280,11 +250,11 @@ DEFAULT:'8px',
                                         <i class="ri-briefcase-line text-gray-400"></i>
                                     </div>
                                     <div class="relative">
-                                        <button class="w-full flex items-center justify-between pl-10 pr-4 py-3 bg-gray-100 rounded text-left text-sm">
+                                        <button id="categoryBtn"  class="w-full flex items-center justify-between pl-10 pr-4 py-3 bg-gray-100 rounded text-left text-sm">
                                             <span class="text-gray-700">Category</span>
                                             <i class="ri-arrow-down-s-line"></i>
                                         </button>
-                                        <div class="dropdown-content">
+                                        <div class="dropdown-content" id="categoryDropdown">
                                             <div class="py-1">
                                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">IT & Development</a>
                                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Design & Creative</a>
@@ -302,11 +272,11 @@ DEFAULT:'8px',
                                         <i class="ri-map-pin-line text-gray-400"></i>
                                     </div>
                                     <div class="relative">
-                                        <button class="w-full flex items-center justify-between pl-10 pr-4 py-3 bg-gray-100 rounded text-left text-sm">
+                                        <button id="locationBtn"   class="w-full flex items-center justify-between pl-10 pr-4 py-3 bg-gray-100 rounded text-left text-sm">
                                             <span class="text-gray-700">Location</span>
                                             <i class="ri-arrow-down-s-line"></i>
                                         </button>
-                                        <div class="dropdown-content">
+                                        <div id="locationDropdown"  class="dropdown-content">
                                             <div class="py-1">
                                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Remote</a>
                                                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">New York</a>
@@ -921,6 +891,70 @@ DEFAULT:'8px',
                 });
             });
         });
-    </script>
+        
+            tailwind.config = {
+                darkMode: 'class',
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: '#3b82f6',
+                            secondary: '#10b981'
+                        },
+                        borderRadius: {
+                            'none': '0px',
+                            'sm': '4px',
+                            DEFAULT: '8px',
+                            'md': '12px',
+                            'lg': '16px',
+                            'xl': '20px',
+                            '2xl': '24px',
+                            '3xl': '32px',
+                            'full': '9999px',
+                            'button': '8px'
+                        }
+                    }
+                }
+            }
+
+                function setTab(index) {
+        const slider = document.getElementById('slider');
+        const tab0 = document.getElementById('tab0');
+        const tab1 = document.getElementById('tab1');
+        const input = document.getElementById('searchInput');
+
+        if (index === 0) {
+            slider.style.left = '0%';
+            tab0.classList.add('text-blue-600');
+            tab1.classList.remove('text-blue-600');
+            tab1.classList.add('text-gray-500');
+            input.placeholder = "Search for jobs";
+        } else {
+            slider.style.left = '50%';
+            tab1.classList.add('text-blue-600');
+            tab0.classList.remove('text-blue-600');
+            tab0.classList.add('text-gray-500');
+            input.placeholder = "Search for talent";
+        }
+    }
+
+        // Dropdown toggle logic
+    document.getElementById('categoryBtn').addEventListener('click', function (e) {
+      e.stopPropagation();
+      document.getElementById('categoryDropdown').classList.toggle('hidden');
+      document.getElementById('locationDropdown').classList.add('hidden');
+    });
+
+    document.getElementById('locationBtn').addEventListener('click', function (e) {
+      e.stopPropagation();
+      document.getElementById('locationDropdown').classList.toggle('hidden');
+      document.getElementById('categoryDropdown').classList.add('hidden');
+    });
+
+    // Close dropdowns when clicking outside
+    window.addEventListener('click', function () {
+      document.getElementById('categoryDropdown').classList.add('hidden');
+      document.getElementById('locationDropdown').classList.add('hidden');
+    });
+        </script>
 </body>
 </html>
