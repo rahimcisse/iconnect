@@ -1041,41 +1041,22 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Dark mode functionality
-  const darkModeToggle = document.getElementById('darkModeToggle');
-  const themeIcon = document.getElementById('themeIcon');
-  const htmlElement = document.documentElement;
-  
-  // Function to set theme
-  function setTheme(isDark) {
-    if (isDark) {
-      htmlElement.classList.add('dark');
-      themeIcon.classList.remove('ri-sun-line');
-      themeIcon.classList.add('ri-moon-line');
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      htmlElement.classList.remove('dark');
-      themeIcon.classList.remove('ri-moon-line');
-      themeIcon.classList.add('ri-sun-line');
-      localStorage.setItem('darkMode', 'false');
-    }
-  }
-  
-  // Check for saved theme preference or system preference
-  const savedTheme = localStorage.getItem('darkMode');
-  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  setTheme(savedTheme === 'true' || (!savedTheme && systemPrefersDark));
-  
-  // Toggle dark mode
-  darkModeToggle.addEventListener('click', function() {
-    setTheme(!htmlElement.classList.contains('dark'));
-  });
-  
-  // Listen for system theme changes
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    if (!localStorage.getItem('darkMode')) {
-      setTheme(e.matches);
-    }
-  });
+        const toggle = document.getElementById('darkModeToggle');
+        const icon = document.getElementById('themeIcon');
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            icon.classList.remove('ri-sun-line');
+            icon.classList.add('ri-moon-line');
+        }
+
+        toggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            icon.classList.toggle('ri-sun-line');
+            icon.classList.toggle('ri-moon-line');
+        });
 });
 
 document.addEventListener('DOMContentLoaded', function() {

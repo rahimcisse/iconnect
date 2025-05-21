@@ -5,7 +5,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>About WorkConnect - Connect Workers with Clients</title>
         <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-        <script>tailwind.config={theme:{extend:{colors:{primary:'#3b82f6',secondary:'#10b981'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+        <script>
+            tailwind.config = {
+                darkMode: 'class',
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: '#3b82f6',
+                            secondary: '#10b981'
+                        },
+                        borderRadius: {
+                            'none': '0px',
+                            'sm': '4px',
+                            DEFAULT: '8px',
+                            'md': '12px',
+                            'lg': '16px',
+                            'xl': '20px',
+                            '2xl': '24px',
+                            '3xl': '32px',
+                            'full': '9999px',
+                            'button': '8px'
+                        }
+                    }
+                }
+            }
+        </script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -35,25 +59,28 @@
         </style>
     </head>
     
-<body class="bg-gray-50 font-['Inter']">
+<body class="bg-gray-50 dark:bg-gray-900 font-['Inter'] transition-colors duration-300" id="body">
     <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <header class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center">
                 <a href="#" class="text-2xl font-['Pacifico'] text-primary mr-10">Iconnect</a>
                 <nav class="hidden md:flex space-x-8">
-                    <a href="index" class="text-gray-700 hover:text-primary font-medium">Home</a>
-                    <a href="browse" class="text-gray-700 hover:text-primary font-medium">Browse Jobs</a>
+                    <a href="index" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium">Home</a>
+                    <a href="browse" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium">Browse Jobs</a>
                     <a href="about" class="text-primary font-medium">About Us</a>
-                    <a href="how_it_works" class="text-gray-700 hover:text-primary font-medium">How It Works</a>
+                    <a href="how_it_works" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium">How It Works</a>
                 </nav>
             </div>
             <div class="flex items-center space-x-4">
-                <button class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">Log In</button>
+                <button class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium whitespace-nowrap">Log In</button>
                 <button class="bg-primary text-white px-4 py-2 font-medium !rounded-button hover:bg-primary/90 whitespace-nowrap">Sign Up</button>
-                <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 cursor-pointer">
-                    <i class="ri-menu-line ri-lg"></i>
-                </div>
+      <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 cursor-pointer" id="mobileMenuToggle">
+        <i class="ri-menu-line ri-lg dark:text-gray-300"></i>
+      </div>
+      <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 cursor-pointer" id="darkModeToggle">
+        <i class="ri-sun-line ri-lg dark:text-gray-300" id="themeIcon"></i>
+      </div>
             </div>
         </div>
     </header>
@@ -63,29 +90,28 @@
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-6">Connect with the right talent or find your next opportunity</h1>
             <p class="text-xl max-w-3xl mx-auto opacity-90 mb-8">Join thousands of professionals on the platform that connects skilled workers with clients looking for quality talent.</p>
-
         </div>
     </section>
 
     <!-- Stats Section -->
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-white dark:bg-gray-800">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div class="stats-item py-4">
                     <div class="text-4xl font-bold text-primary mb-2">10,000+</div>
-                    <div class="text-gray-600">Active Professionals</div>
+                    <div class="text-gray-600 dark:text-gray-300">Active Professionals</div>
                 </div>
                 <div class="stats-item py-4">
                     <div class="text-4xl font-bold text-primary mb-2">5,000+</div>
-                    <div class="text-gray-600">Completed Projects</div>
+                    <div class="text-gray-600 dark:text-gray-300">Completed Projects</div>
                 </div>
                 <div class="stats-item py-4">
                     <div class="text-4xl font-bold text-primary mb-2">95%</div>
-                    <div class="text-gray-600">Satisfaction Rate</div>
+                    <div class="text-gray-600 dark:text-gray-300">Satisfaction Rate</div>
                 </div>
                 <div class="py-4">
                     <div class="text-4xl font-bold text-primary mb-2">50+</div>
-                    <div class="text-gray-600">Job Categories</div>
+                    <div class="text-gray-600 dark:text-gray-300">Job Categories</div>
                 </div>
             </div>
         </div>
@@ -95,19 +121,16 @@
     <section class="py-20">
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Our Mission</h2>
-                <div class="prose prose-lg text-gray-600">
-                    <p class="mb-6">Introducing a groundbreaking platform that bridges the gap between clients seeking talent and individuals on the hunt for job opportunities. Our mission is to transform the way people connect in the job market by creating meaningful employment relationships.</p>
-                    
-                    <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">For Clients</h3>
-                    <p class="mb-6">Businesses can post job vacancies, specify their requirements, and view potential candidates' profiles which highlight their skills, experiences, and previous work. Our advanced search filters help you find the perfect match quickly.</p>
-                    
-                    <h3 class="text-xl font-semibold text-gray-900 mt-8 mb-4">For Job Seekers</h3>
-                    <p class="mb-6">Create comprehensive profiles showcasing your qualifications, making it easier for employers to discover you. Access thousands of job listings tailored to your skills and aspirations, with tools to help you stand out.</p>
-                    
-                    <div class="bg-blue-50 p-6 rounded-lg my-8 border-l-4 border-primary">
-                        <h4 class="font-bold text-gray-900 mb-2">Why Choose IConnect?</h4>
-                        <p class="mb-0">With user-friendly navigation and a commitment to facilitating meaningful connections, our platform provides all the resources you need for successful career advancement and growth.</p>
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Our Mission</h2>
+                <div class="prose prose-lg text-gray-600 dark:text-gray-300">
+                    <p class="mb-6">Introducing a groundbreaking platform that bridges the gap between clients seeking talent and individuals on the hunt for job opportunities...</p>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">For Clients</h3>
+                    <p class="mb-6">Businesses can post job vacancies, specify their requirements, and view potential candidates' profiles...</p>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">For Job Seekers</h3>
+                    <p class="mb-6">Create comprehensive profiles showcasing your qualifications, making it easier for employers to discover you...</p>
+                    <div class="bg-blue-50 dark:bg-gray-800 p-6 rounded-lg my-8 border-l-4 border-primary">
+                        <h4 class="font-bold text-gray-900 dark:text-white mb-2">Why Choose IConnect?</h4>
+                        <p class="mb-0">With user-friendly navigation and a commitment to facilitating meaningful connections...</p>
                     </div>
                 </div>
             </div>
@@ -115,30 +138,30 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-20 bg-gray-50 dark:bg-gray-900">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Key Features</h2>
+            <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Key Features</h2>
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300">
+                <div class="feature-card bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 p-8 rounded-xl shadow-md transition duration-300">
                     <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                         <i class="ri-search-eye-line ri-2x text-primary"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-3">Advanced Search</h3>
-                    <p class="text-gray-600">Find exactly what you're looking for with our powerful filtering options and smart matching algorithms.</p>
+                    <p>Find exactly what you're looking for with our powerful filtering options...</p>
                 </div>
-                <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300">
+                <div class="feature-card bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 p-8 rounded-xl shadow-md transition duration-300">
                     <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                         <i class="ri-profile-line ri-2x text-primary"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-3">Profile Builder</h3>
-                    <p class="text-gray-600">Create professional profiles that highlight your skills and experience to attract the right opportunities.</p>
+                    <p>Create professional profiles that highlight your skills and experience...</p>
                 </div>
-                <div class="feature-card bg-white p-8 rounded-xl shadow-md transition duration-300">
+                <div class="feature-card bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 p-8 rounded-xl shadow-md transition duration-300">
                     <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                         <i class="ri-shield-check-line ri-2x text-primary"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-3">Verified Reviews</h3>
-                    <p class="text-gray-600">Trust the process with authentic feedback from both clients and professionals.</p>
+                    <p>Trust the process with authentic feedback from both clients and professionals.</p>
                 </div>
             </div>
         </div>
@@ -149,7 +172,6 @@
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold mb-6">Ready to Get Started?</h2>
             <p class="text-xl max-w-2xl mx-auto mb-8 opacity-90">Join thousands of professionals and businesses who are already finding success with IConnect.</p>
-
         </div>
     </section>
 
@@ -160,16 +182,16 @@
                     <a href="#" class="text-2xl font-['Pacifico'] text-white mb-4 inline-block">Iconnect</a>
                     <p class="text-gray-400 mb-6 max-w-md">Connecting skilled professionals with businesses looking for quality talent. Our platform makes it easy to find work or hire the perfect candidate.</p>
                     <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+                        <a href="https://www.facebook.com" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
                             <i class="ri-facebook-fill"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+                        <a href="https://x.com" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
                             <i class="ri-twitter-x-fill"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+                        <a href="https://www.linkedin.com" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
                             <i class="ri-linkedin-fill"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+                        <a href="https://www.instagram.com" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
                             <i class="ri-instagram-fill"></i>
                         </a>
                     </div>
@@ -232,3 +254,24 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        const toggle = document.getElementById('darkModeToggle');
+        const icon = document.getElementById('themeIcon');
+
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            icon.classList.remove('ri-sun-line');
+            icon.classList.add('ri-moon-line');
+        }
+
+        toggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            icon.classList.toggle('ri-sun-line');
+            icon.classList.toggle('ri-moon-line');
+        });
+    </script>
+</body>
+</html>
