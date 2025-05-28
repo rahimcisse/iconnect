@@ -44,34 +44,114 @@ DEFAULT:'8px',
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
 <link href='static/main.css' rel='stylesheet'>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+          .account-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            min-width: 200px;
+            background: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            z-index: 100;
+        }
+        .account-dropdown.show {
+            display: block;
+        }
+        .account-dropdown a {
+            display: block;
+            padding: 12px 16px;
+            color: #4b5563;
+            transition: all 0.2s;
+        }
+        .account-dropdown a:hover {
+            background: #f3f4f6;
+            color: #1e40af;
+        }
+        .account-dropdown hr {
+            border-color: #e5e7eb;
+            margin: 4px 0;
+        }
+            .dark .account-dropdown a {
+                color: #9CA3AF;
+            }
+            
+            .dark .account-dropdown a:hover {
+                background: #374151;
+                color: #3b82f6;
+            }
+            .dark .account-dropdown hr {
+                border-color: #374151;
+            }
+            .account-dropdown hr {
+                border-color: #e5e7eb;
+                margin: 4px 0;
+            }
+                        .dark .account-dropdown {
+                background: #1F2937;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            }
 
+</style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-<!-- Header -->
-<header class="bg-white dark:bg-dark-800 shadow-sm sticky top-0 z-50 transition-colors duration-200">
-  <div class="container mx-auto px-4 py-4 flex items-center justify-between">
-    <div class="flex items-center">
-      <a href="#" class="text-2xl font-['Pacifico'] text-primary mr-10">Iconnect</a>
-      <nav class="hidden md:flex space-x-8">
-        <a href="index" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary font-medium">Home</a>
-        <a href="browse" class="text-primary dark:text-primary font-medium border-b-2 border-primary">Browse Jobs</a>
-        <a href="addJob" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary font-medium">Add Job</a>
-        <a href="how_it_works" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary font-medium">How It Works</a>
-        <a href="about" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary font-medium">About Us</a>
-      </nav>
-    </div>
-    <div class="flex items-center space-x-4">
-      <button class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium whitespace-nowrap">Log In</button>
-      <button class="bg-primary text-white px-4 py-2 font-medium !rounded-button hover:bg-primary/90 whitespace-nowrap">Sign Up</button>
-      <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 cursor-pointer" id="mobileMenuToggle">
-        <i class="ri-menu-line ri-lg dark:text-gray-300"></i>
-      </div>
-      <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 cursor-pointer" id="darkModeToggle">
-        <i class="ri-sun-line ri-lg dark:text-gray-300" id="themeIcon"></i>
-      </div>
-    </div>
-  </div>
-</header>
+    <!-- Header -->
+    <header class="bg-white dark:bg-dark-800 shadow-sm sticky top-0 z-50 transition-colors duration-200">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="#" class="text-2xl font-['Pacifico'] text-primary mr-10">Iconnect</a>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary font-medium">Home</a>
+                    <a href="browse" class="text-primary dark:text-primary font-medium border-b-2 border-primary">Browse Jobs</a>
+                    <a href="how_it_works" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary font-medium">How It Works</a>
+                    <a href="about" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary font-medium">About Us</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button onclick="window.location.href = 'login';" class="text-gray-700 dark:text-gray-300 hover:text-primary font-medium whitespace-nowrap">Log In</button>
+                <button onclick="window.location.href = 'login';" class="bg-primary text-white px-4 py-2 font-medium !rounded-button hover:bg-primary/90 whitespace-nowrap">Sign Up</button>
+                
+                <!-- Account Button with Dropdown -->
+                <div class="relative">
+                    <button id="accountButton" class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center text-white">
+                            <i class="ri-user-line"></i>
+                        </div>
+                        <span class="hidden md:inline font-medium">Account</span>
+                        <i class="ri-arrow-down-s-line hidden md:inline transition-transform duration-200" id="accountArrow"></i>
+                    </button>
+                    
+                    <div id="accountDropdown" class="account-dropdown">
+                        <a href="account" class="flex items-center space-x-2">
+                            <i class="ri-user-line"></i>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-2">
+                            <i class="ri-settings-3-line"></i>
+                            <span>Settings</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-2">
+                            <i class="ri-mail-line"></i>
+                            <span>Messages</span>
+                        </a>
+                        <hr>
+                        <a href="login" class="flex items-center space-x-2 text-red-500 hover:text-red-600">
+                            <i class="ri-logout-box-r-line"></i>
+                            <span>Log Out</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 cursor-pointer" id="mobileMenuToggle">
+                    <i class="ri-menu-line ri-lg dark:text-gray-300"></i>
+                </div>
+                <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 cursor-pointer" id="darkModeToggle">
+                    <i class="ri-sun-line ri-lg dark:text-gray-300" id="themeIcon"></i>
+                </div>
+            </div>
+        </div>
+    </header>
 
 <!-- Main Search Bar -->
 <section class="bg-white dark:bg-dark-800 py-8 shadow-sm transition-colors duration-200">
@@ -94,6 +174,9 @@ DEFAULT:'8px',
         </button>
         <button class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">
           Search
+        </button>
+        <button href="addJob"class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 whitespace-nowrap !rounded-button">
+          Add Job
         </button>
       </div>
     </div>
@@ -405,6 +488,44 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+        document.addEventListener('DOMContentLoaded', function() {
+            const accountButton = document.getElementById('accountButton');
+            const accountDropdown = document.getElementById('accountDropdown');
+            const accountArrow = document.getElementById('accountArrow');
+            
+            if (accountButton && accountDropdown) {
+                accountButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    accountDropdown.classList.toggle('show');
+                    
+                    // Rotate arrow icon
+                    if (accountArrow) {
+                        accountArrow.classList.toggle('rotate-180');
+                    }
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!accountButton.contains(e.target) && !accountDropdown.contains(e.target)) {
+                        accountDropdown.classList.remove('show');
+                        if (accountArrow) {
+                            accountArrow.classList.remove('rotate-180');
+                        }
+                    }
+                });
+                
+                // Close dropdown when clicking on a dropdown item
+                const dropdownItems = accountDropdown.querySelectorAll('a');
+                dropdownItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        accountDropdown.classList.remove('show');
+                        if (accountArrow) {
+                            accountArrow.classList.remove('rotate-180');
+                        }
+                    });
+                });
+            }})
+       
 </script>
 </body>
 </html>

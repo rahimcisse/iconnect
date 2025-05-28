@@ -29,6 +29,9 @@ def how_it_works():
 @app.route('/addJob')
 def addJob():
     return render_template('addJob.html')
+@app.route('/account')
+def account():
+    return render_template('account.html')
 
 def init_db():
     conn = sqlite3.connect('jobs.db')
